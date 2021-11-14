@@ -9,18 +9,15 @@ import (
 func NewRouter() *gin.Engine {
 	router := gin.Default()
 
-	router.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
-
-	controllers.SetUpProjectsController()
-
-	projectsGroup := router.Group("/projects")
+	v1 := router.Group("/api/v1")
 	{
-		projects := new(controllers.ProjectsController)
-		projectsGroup.GET("/", projects.GetAllProjects)
+		projectsGroup := v1.Group("/projects")
+		{
+			projects := new(controllers.ProjectsController)
+			projectsGroup.GET("", projects.All)
+			projectsGroup.GET("/:id", projects.One)
+			projectsGroup.GET("/filters", projects.Filters)
+		}
 	}
 
 	return router

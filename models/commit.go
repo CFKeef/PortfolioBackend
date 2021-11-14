@@ -1,14 +1,17 @@
 package model
 
 type Commit struct {
+	Project     string
 	Message     string `json:"message"`
 	DateCreated string `json:"date_created"`
+	URL         string `json:"url"`
 }
 
 type Author struct {
 	Name  string `json:"name"`
 	Email string `json:"email"`
 	Date  string `json:"date"`
+	_     interface{}
 }
 
 type Tree struct {
@@ -22,7 +25,7 @@ type Verification struct {
 	_        interface{}
 }
 
-type RepoCommitResponse struct {
+type CommitInformation struct {
 	Author       Author       `json:"author"`
 	Committer    Author       `json:"committer"`
 	Message      string       `json:"message"`
@@ -30,4 +33,14 @@ type RepoCommitResponse struct {
 	URL          string       `json:"url"`
 	CommentCount int          `json:"comment_count"`
 	Verification Verification `json:"verification"`
+}
+
+type RepoCommitResponse []struct {
+	Commit CommitInformation `json:"commit"`
+	URL    string            `json:"url"`
+}
+
+type CommitChannelType struct {
+	Data Commit
+	Err  error
 }
