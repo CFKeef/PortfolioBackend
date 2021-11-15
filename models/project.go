@@ -12,12 +12,12 @@ type RawProject struct {
 }
 
 type Project struct {
-	Title        string   `json:"title"`
-	Description  string   `json:"description"`
-	Tech         []string `json:"tech"`
-	RepoName     string   `json:"repoName"`
-	RepoLink     string   `json:"repoLink"`
-	DeployedLink string   `json:"deployedLink"`
-	ImageLink    string   `json:"imageLink"`
-	Order        int      `json:"id"`
+	Title        string   `json:"title,omitempty"`
+	Description  string   `json:"description,omitempty"`
+	Tech         []string `json:"tech,omitempty"`
+	RepoName     string   `json:"repoName,omitempty"`
+	RepoLink     string   `json:"repoLink,omitempty"`
+	DeployedLink string   `json:"deployedLink,omitempty"`
+	ImageLink    string   `json:"imageLink,omitempty"`
+	Order        int      `json:"id,omitempty"`
 }
