@@ -60,6 +60,7 @@ func fetchCommit(name string, token string, ch chan<- model.CommitChannelType, w
 	if err != nil {
 		res.Err = err
 		ch <- *res
+		return
 	}
 
 	req.Header.Set("Authorization", "Bearer "+token)
@@ -71,6 +72,7 @@ func fetchCommit(name string, token string, ch chan<- model.CommitChannelType, w
 	if err != nil {
 		res.Err = err
 		ch <- *res
+		return
 	}
 
 	defer resp.Body.Close()
@@ -80,17 +82,31 @@ func fetchCommit(name string, token string, ch chan<- model.CommitChannelType, w
 	if err != nil {
 		res.Err = err
 		ch <- *res
+		return
 	}
 
 	var arr model.RepoCommitResponse
 
 	err = json.Unmarshal(responseData, &arr)
 
+	if len(arr) == 0 {
+		res.Data = model.Commit{
+			Project: name,
+			Message:     "",
+			DateCreated: "",
+			URL:         "",
+		}
+		res.Err = nil
+		ch <- *res
+		return
+	}
+
 	temp := arr[0]
 
 	if err != nil {
 		res.Err = err
 		ch <- *res
+		return
 	}
 
 
